@@ -1,4 +1,4 @@
- 21M359 Fall 2012
+21M359 Fall 2012
 Music Composition Software
 Instructor: Peter Whincop
 Students:
