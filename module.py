@@ -7,26 +7,21 @@
 class Module(object):
     def __init__(self, name, input_ports, output_ports, verbose=False):
         if not isinstance(name, str):
-            raise InitializationError("Module name must be an str." + \
-                                      " Got: {0} which is {1}".format(name, type(name)))
+            raise InitializationError("Module name must be an str. Got: {0} which is {1}".format(name, type(name)))
 
         if not isinstance(input_ports, list):
-            raise InitializationError("{0} input_ports must be a list." + \
-                                      " Got: {1} which is {2}".format(name, input_ports, type(input_ports)))
+            raise InitializationError("{0} input_ports must be a list. Got: {1} which is {2}".format(name, input_ports, type(input_ports)))
 
         for port in input_ports:
             if not isinstance(port, str):
-                 raise InitializationError("{0} input_ports elements must be a str." + \
-                                           " Got element: {1} which is {2}".format(name, port, type(port)))
+                 raise InitializationError("{0} input_ports elements must be a str. Got element: {1} which is {2}".format(name, port, type(port)))
 
         if not isinstance(output_ports, list):
-            raise InitializationError("{0} output_ports must be a list." + \
-                                      " Got: {1} which is {2}".format(name, output_ports, type(output_ports)))
+            raise InitializationError("{0} output_ports must be a list. Got: {1} which is {2}".format(name, output_ports, type(output_ports)))
 
         for port in output_ports:
             if not isinstance(port, str):
-                 raise InitializationError("{0} output_ports elements must be a str." + \
-                                           " Got element: {1} which is {2}".format(name, port, type(port)))
+                 raise InitializationError("{0} output_ports elements must be a str. Got element: {1} which is {2}".format(name, port, type(port)))
         
         self.name = name
         self.connections = []
@@ -49,11 +44,9 @@ class Module(object):
 
     def connect(self, output_port, connection, input_port):
         if not connection.has_input_port(input_port):
-            raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}," + \
-                                  " but {2} has no input port named {3}.".format(self.name, output_port, connection.name, input_port))
+            raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {2} has no input port named {3}.".format(self.name, output_port, connection.name, input_port))
         if not self.has_output_port(output_port):
-             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}," + \
-                                   " but {0} has no output port named {1}.".format(self.name, output_port, connection.name, input_port))
+             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {0} has no output port named {1}.".format(self.name, output_port, connection.name, input_port))
         
         self.connections.append((output_port, connection, input_port))
         

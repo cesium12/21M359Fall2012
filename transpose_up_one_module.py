@@ -10,7 +10,6 @@ class TransposeUpOne(Module):
     def generate_output(self):
         #input to module can be accessed by calling self.get_input(<input port>)
         print "{0} processing on input {1} ".format(self.name, str(self.get_input("in0")))
-
         
         output = []
         for chord in self.get_input("in0"):
