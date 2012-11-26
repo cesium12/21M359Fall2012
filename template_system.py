@@ -11,7 +11,7 @@ from modules import *
 # NOTE: end has no outputs!
 #======================================================
 
-start = Start("Start", <input ports>, <output ports>])
+start = Start("Start", <input ports>, <output ports>)
 end = End("End", <input ports>)
 
 #======================================================
@@ -24,7 +24,7 @@ var = ModuleName(<name>, <input ports>, <output ports>)
 # connect modules here
 #======================================================
 
-start.connect(<output port>, some_var, <input port>
+start.connect(<output port>, some_var, <input port>)
 #other connections go here
 some_var.connect(<output port>, end, <input port>)
 
