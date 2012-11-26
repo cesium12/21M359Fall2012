@@ -4,7 +4,7 @@
 
 from module import *
 
-class TransposeModule(Module):
+class TemplateModule(Module):
         
     def generate_output(self):
         #your code goes here
