@@ -7,3 +7,4 @@ from chord import *
 from start_module import *
 from end_module import *
 from transpose_up_one_module import *
+from transpose_by_n import *
