@@ -37,7 +37,7 @@ TBN1.connect("out0", end, "in0")
 # create source sequences here
 #======================================================
 
-source_sequence = [Chord([1,4,7]), Chord([3,4,5])]
+source_sequence = [Chord([1,3,5]), Chord([0,4,7])]
 
 #======================================================
 # load sources into start inputs here
@@ -46,7 +46,7 @@ source_sequence = [Chord([1,4,7]), Chord([3,4,5])]
 #======================================================
 
 start.set_input(source_sequence, "in0")
-start.set_input(3, "in1")
+start.set_input([3, 6], "in1")
 
 #======================================================
 # DO NOT MODIFY
