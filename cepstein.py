@@ -1,5 +1,7 @@
+
 # Owner: Class
-# Summary: <One sentence summary of what your system does>
+# Summary: This is the configuration for a system that transposes
+# a list of chords up two steps using two single step transpose modules in series
 # Notes:
 
 from modules import *
@@ -11,28 +13,28 @@ from modules import *
 # NOTE: end has no outputs!
 #======================================================
 
-start = Start("Start", <input ports>, <output ports>)
-end = End("End", <input ports>)
+start = Start("Start", ["in0"], ["out0"])
+end = End("End", ["in0"])
 
 #======================================================
 # initialize your modules here
 #======================================================
 
-var = ModuleName(<name>, <input ports>, <output ports>)
+Reduce01 = ReduceModule("Reduce01", ["in0"], ["out0"])
+#TUO2 = TransposeUpOne("TUO2", ["in0"], ["out0"])
 
 #======================================================
 # connect modules here
 #======================================================
 
-start.connect(<output port>, some_var, <input port>)
-#other connections go here
-some_var.connect(<output port>, end, <input port>)
+start.connect("out0", Reduce01, "in0")
+Reduce01.connect("out0", end, "in0")
 
 #======================================================
 # create source sequences here
 #======================================================
 
-#e.g. source_sequence = [Chord([1,4,7]), Chord([3,4,5])]
+source_sequence = [Chord([42,-53,15]), Chord([3,14,5])]
 
 #======================================================
 # load sources into start inputs here
@@ -40,7 +42,7 @@ some_var.connect(<output port>, end, <input port>)
 # all start inputs must set
 #======================================================
 
-start.set_input(<source_sequence>, <input port>)
+start.set_input(source_sequence, "in0")
 
 #======================================================
 # DO NOT MODIFY
