@@ -17,7 +17,6 @@ class Start(Module):
 
     def start(self):
         self.process()
-        self.generate_output()
         self.clock()
 
     def process(self):
