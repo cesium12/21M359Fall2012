@@ -12,7 +12,8 @@ class Chord:
                 raise Exception("Chord must be initialized with a list of pitch classes. Got entry of list: {0}, which is {1}".format(entry, type(entry)))
 
         self.pitch_classes = tuple(sorted( p % 12 for p in pitch_classes ))
-        
+        #We should reinitialize this to accept octaves and note names (like C#4 vs C#6, we don't want them both to be '2')
+
     def transpose(self, steps):
         if not isinstance(steps, int):
             raise Exception("Transpose steps must be an int. Chord {0} got: {1} which is {2}".format(str(self), steps, type(steps)))
@@ -41,6 +42,18 @@ class Chord:
                     interval = 12 - interval
                 intervals[interval] += 1
         return tuple( intervals[i + 1] for i in range(6) )
+
+    def zero_shifted(self):
+        sorted_pitch_classes = [] 
+        sorted_pitch_classes = sorted(pitch_classes)
+        if sorted_pitch_classes[0] == 0:
+            return Chord(sorted_pitch_classes)
+        else:
+            shifting_factor = sorted_pitch_classes[0]
+            for i in sorted_pitch_classes:
+                sorted_pitch_classes[i] = sorted_pitch_classes[i]-shifting_factor
+            return Chord(sorted_pitch_classes)
+
 
     def __repr__(self):
         return "({0})".format(",".join([str(pc) for pc in self.pitch_classes]))
