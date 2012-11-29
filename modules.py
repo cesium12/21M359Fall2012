@@ -9,3 +9,4 @@ from end_module import *
 from transpose_up_one_module import *
 from base_at_zero_module import *
 from leftward_pack_module import *
+from transpose_by_n import *
