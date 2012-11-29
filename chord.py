@@ -19,6 +19,10 @@ class Chord:
         pitch_classes = [pc + steps for pc in self.pitch_classes]
         return Chord(pitch_classes)
 
+    def invert(self, point):
+        pitch_classes = [pc - 2*(pc - point) for pc in self.pitch_classes]
+        return Chord(pitch_classes)
+
     def __repr__(self):
         return "({0})".format(",".join([str(pc) for pc in self.pitch_classes]))
     
