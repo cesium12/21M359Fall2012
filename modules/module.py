@@ -1,4 +1,4 @@
-99# DO NOT MODIFY
+# DO NOT MODIFY
 
 # Owner: Chris Dolan (cdolan@mit.edu)
 # Summary: Base class for all modules
