@@ -1,4 +1,4 @@
-# DO NOT MODIFY
+99# DO NOT MODIFY
 
 # Owner: Chris Dolan (cdolan@mit.edu)
 # Summary: Base class for all modules
@@ -24,7 +24,8 @@ class Module(object):
                  raise InitializationError("{0} output_ports elements must be a str. Got element: {1} which is {2}".format(name, port, type(port)))
         
         self.name = name
-        self.connections = []
+        self.outgoing_connections = []
+        self.incoming_connections = []
         self.input = {}
         self.output = {}
         
@@ -46,9 +47,11 @@ class Module(object):
         if not connection.has_input_port(input_port):
             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {2} has no input port named {3}.".format(self.name, output_port, connection.name, input_port))
         if not self.has_output_port(output_port):
-             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {0} has no output port named {1}.".format(self.name, output_port, connection.name, input_port))
+             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {0} has no output port named {1}.".format(self.name, output_port, connection.name, input_port))        
         
-        self.connections.append((output_port, connection, input_port))
+#        connection.register_incoming_connection(output_port, self, input_port)
+
+        self.outgoing_connections.append((output_port, connection, input_port))
         
     def has_input_port(self, port):
         return port in self.input.keys()
@@ -56,17 +59,42 @@ class Module(object):
     def has_output_port(self, port):
         return port in self.output.keys()
 
+    def register_incoming_connection(self, output_port, connection, input_port):
+        if input_port in [lambda x: x[2] for x in self.incoming_connections]:
+            raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {2} output port {3} has already been connected to another output.".format(connection.name, output_port, self.name, input_port))        
+        
+        self.incoming_connections.append((output_port, connection, input_port))
+
     def set_input(self, input, input_port):
         if self.has_input_port(input_port):
             self.input[input_port] = input
         else:
             raise SetInputException("{0} has no input port named {1}.".format(self.name, input_port))          
 
-    def get_input(self, input_port):
+    def get_input(self, input_port, primary_type = None, secondary_type = None):
+        
+        input = None
+
         if self.has_input_port(input_port):
-            return self.input[input_port]
+            input = self.input[input_port]
         else:
             raise GetInputError("{0} has no input port named {1}.".format(self.name, input_port))
+
+        #typechecking
+        if primary_type is not None: 
+            if not isinstance(input, primary_type):
+                raise GetInputError("{0} expected input on port {1} to be a {2}, but got {3} which is type {4}".format(self.name, input_port, primary_type, input, type(input)))
+
+            if secondary_type is not None:
+                try:
+                    for entry in input:
+                        if not isinstance(entry, secondary_type):
+                            raise GetInputError("{0} expected input on port {1} to have entries of {2}, but got entry {3} which is type {4}".format(self.name, input_port, secondary_type, entry, type(entry)))
+                except TypeError:
+                    raise GetInputError("{0} get input on port {1} type checking failed, can't iterate {2} which is type {3}".format(self.name, input_port, input, type(input)))
+
+        return input
+
 
     def get_output(self, output_port):
         if self.has_output_port(output_port):
@@ -95,13 +123,13 @@ class Module(object):
         raise NotImplementedError("Subclasses of Module must implement generate_output method.")
         
     def clock(self):
-        for output_port, connection, input_port in self.connections:                
+        for output_port, connection, input_port in self.outgoing_connections:                
             connection.set_input(self.get_output(output_port), input_port)
 
-        for output_port, connection, port in self.connections:
+        for output_port, connection, port in self.outgoing_connections:
             connection.process()
 
-        for output_port, connection, port in self.connections:
+        for output_port, connection, port in self.outgoing_connections:
             connection.clock()
 
 class CustomError(Exception, object):
