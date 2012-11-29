@@ -25,7 +25,7 @@ class Module(object):
         
         self.name = name
         self.outgoing_connections = []
-        self.incoming_connections = []
+        self.incoming_connections = {}
         self.input = {}
         self.output = {}
         
@@ -49,7 +49,7 @@ class Module(object):
         if not self.has_output_port(output_port):
              raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {0} has no output port named {1}.".format(self.name, output_port, connection.name, input_port))        
         
-#        connection.register_incoming_connection(output_port, self, input_port)
+        connection.register_incoming_connection(output_port, self, input_port)
 
         self.outgoing_connections.append((output_port, connection, input_port))
         
@@ -60,10 +60,10 @@ class Module(object):
         return port in self.output.keys()
 
     def register_incoming_connection(self, output_port, connection, input_port):
-        if input_port in [lambda x: x[2] for x in self.incoming_connections]:
+        if input_port in self.incoming_connections:
             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {2} output port {3} has already been connected to another output.".format(connection.name, output_port, self.name, input_port))        
         
-        self.incoming_connections.append((output_port, connection, input_port))
+        self.incoming_connections[input_port] = (output_port, connection)
 
     def set_input(self, input, input_port):
         if self.has_input_port(input_port):

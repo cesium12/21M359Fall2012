@@ -3,7 +3,7 @@
 # Notes: Input: chord and number of steps, Output: transposed chord
 
 from module import *
-from chord import *
+from data import *
 
 class TransposeByN(Module):
     def generate_output(self):
