@@ -20,6 +20,7 @@ class Chord:
         pitch_classes = [(pc + steps) % 12 for pc in self.pitch_classes]
         return Chord(pitch_classes)
 
+
     def invert(self, top):
         if not isinstance(top, int):
             raise Exception("Invert top must be an int. Chord {0} got: {1} which is {2}".format(str(self), steps, type(steps)))
