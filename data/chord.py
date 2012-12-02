@@ -1,6 +1,6 @@
 # Owner: Class
 # Summary: class representing a chord
-# Notes:
+# Notes: Added base_at_zero and leftward_pack but someone should double-check that they're implemented correctly. -MC
 
 class Chord:
     def __init__(self, pitch_classes):
@@ -54,6 +54,21 @@ class Chord:
             for i in sorted_pitch_classes:
                 sorted_pitch_classes[i] = sorted_pitch_classes[i]-shifting_factor
             return Chord(sorted_pitch_classes)
+
+    def base_at_zero(self):
+        #takes a chord and puts it in normal form
+        output = []
+        output.append(sorted(self.transpose(-min(chord))))
+        return Chord(output)
+
+    def leftward_pack(self):
+        output = []
+        #generate the other possible forms of this chord, return
+        #lexicographically smallest one
+        otherForms = [self.invert(float(x)/2) for x in range(0,6)]
+        otherForms.sort()
+        output.append(otherForms[0])
+        return Chord(output)
 
 
     def __repr__(self):
