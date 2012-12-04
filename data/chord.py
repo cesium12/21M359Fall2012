@@ -46,20 +46,10 @@ class Chord:
 
     def zero_shifted(self):
         sorted_pitch_classes = [] 
-        sorted_pitch_classes = sorted(pitch_classes)
-        if sorted_pitch_classes[0] == 0:
-            return Chord(sorted_pitch_classes)
-        else:
-            shifting_factor = sorted_pitch_classes[0]
-            for i in sorted_pitch_classes:
-                sorted_pitch_classes[i] = sorted_pitch_classes[i]-shifting_factor
-            return Chord(sorted_pitch_classes)
+        sorted_pitch_classes = sorted(self.pitch_classes)
+        new_pitch_classes = [sp - min(sorted_pitch_classes) for sp in sorted_pitch_classes]
+        return Chord(new_pitch_classes)
 
-    def base_at_zero(self):
-        #takes a chord and puts it in normal form
-        output = []
-        output.append(sorted(self.transpose(-min(chord))))
-        return Chord(output)
 
     def leftward_pack(self):
         output = []
