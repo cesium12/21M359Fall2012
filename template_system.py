@@ -2,7 +2,7 @@
 # Summary: <One sentence summary of what your system does>
 # Notes:
 
-from modules import *
+import modules
 
 #======================================================
 # initialize start and end

@@ -50,7 +50,6 @@ class Chord:
         new_pitch_classes = [sp - min(sorted_pitch_classes) for sp in sorted_pitch_classes]
         return Chord(new_pitch_classes)
 
-
     def leftward_pack(self):
         pc = self.pitch_classes
         minSpan = None
