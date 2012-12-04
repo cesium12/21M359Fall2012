@@ -1,6 +1,6 @@
 # Owner: Class
 # Summary: class representing a chord
-# Notes:
+# Notes: Added base_at_zero and leftward_pack but someone should double-check that they're implemented correctly. -MC
 
 class Chord:
     def __init__(self, pitch_classes):
@@ -46,14 +46,27 @@ class Chord:
 
     def zero_shifted(self):
         sorted_pitch_classes = [] 
-        sorted_pitch_classes = sorted(pitch_classes)
-        if sorted_pitch_classes[0] == 0:
-            return Chord(sorted_pitch_classes)
-        else:
-            shifting_factor = sorted_pitch_classes[0]
-            for i in sorted_pitch_classes:
-                sorted_pitch_classes[i] = sorted_pitch_classes[i]-shifting_factor
-            return Chord(sorted_pitch_classes)
+        sorted_pitch_classes = sorted(self.pitch_classes)
+        new_pitch_classes = [sp - min(sorted_pitch_classes) for sp in sorted_pitch_classes]
+        return Chord(new_pitch_classes)
+
+
+    def leftward_pack(self):
+        pc = self.pitch_classes
+        minSpan = None
+        for i in range(len(pc)):
+            newSpan = (pc[(len(pc)-1+i)%len(pc)] - pc[i%len(pc)]) % 12
+            if minSpan == None or newSpan < minSpan:
+                minSpan = newSpan
+                leftRotations = i
+        # this ought to be the correct rotation, now we only need
+        # to test each inversion
+        rot_classes = [pc[(i + leftRotations)%len(pc)] for i in range(len(pc))]
+        # we need to base this at zero still - can't use zero_shifted function, because
+        # that won't retain rotation information due to sorting
+        zeroed_rot = [(rc - rot_classes[0])%12 for rc in rot_classes]
+        inversions = [Chord(zeroed_rot).invert(x).pitch_classes for x in range(12)]
+        return sorted(inversions)[0]
 
 
     def __repr__(self):
