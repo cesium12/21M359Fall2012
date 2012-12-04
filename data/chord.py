@@ -52,13 +52,21 @@ class Chord:
 
 
     def leftward_pack(self):
-        output = []
-        #generate the other possible forms of this chord, return
-        #lexicographically smallest one
-        otherForms = [self.invert(float(x)/2) for x in range(0,6)]
-        otherForms.sort()
-        output.append(otherForms[0])
-        return Chord(output)
+        pc = self.pitch_classes
+        minSpan = None
+        for i in range(len(pc)):
+            newSpan = (pc[(len(pc)-1+i)%len(pc)] - pc[i%len(pc)]) % 12
+            if minSpan == None or newSpan < minSpan:
+                minSpan = newSpan
+                leftRotations = i
+        # this ought to be the correct rotation, now we only need
+        # to test each inversion
+        rot_classes = [pc[(i + leftRotations)%len(pc)] for i in range(len(pc))]
+        # we need to base this at zero still - can't use zero_shifted function, because
+        # that won't retain rotation information due to sorting
+        zeroed_rot = [(rc - rot_classes[0])%12 for rc in rot_classes]
+        inversions = [Chord(zeroed_rot).invert(x).pitch_classes for x in range(12)]
+        return sorted(inversions)[0]
 
 
     def __repr__(self):
