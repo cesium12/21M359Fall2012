@@ -15,10 +15,7 @@ class End(Module):
     def generate_output(self):
         if not self.finished:
             self.finished = True
-            output = []
-            for input in self.input.values():
-                output += input
-            print "The result is : " + str(output)
+            print "The result is :", self.input.values()
 
     def clock(self):
         pass
