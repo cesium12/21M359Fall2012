@@ -47,7 +47,7 @@ class Module(object):
         if not connection.has_input_port(input_port):
             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {2} has no input port named {3}.".format(self.name, output_port, connection.name, input_port))
         if not self.has_output_port(output_port):
-             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {0} has no output port named {1}.".format(self.name, output_port, connection.name, input_port))        
+             raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {0} has no output port named {1}.".format(self.name, output_port, connection.name, input_port))
         
         connection.register_incoming_connection(output_port, self, input_port)
 
@@ -61,7 +61,7 @@ class Module(object):
 
     def register_incoming_connection(self, output_port, connection, input_port):
         if input_port in self.incoming_connections:
-            raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {2} output port {3} has already been connected to another output.".format(connection.name, output_port, self.name, input_port))        
+            raise ConnectionError("Attemped to connect {0} output port {1} to {2} input port {3}, but {2} output port {3} has already been connected to another output.".format(connection.name, output_port, self.name, input_port))
         
         self.incoming_connections[input_port] = (output_port, connection)
 
@@ -69,7 +69,7 @@ class Module(object):
         if self.has_input_port(input_port):
             self.input[input_port] = input
         else:
-            raise SetInputError("{0} has no input port named {1}.".format(self.name, input_port))          
+            raise SetInputError("{0} has no input port named {1}.".format(self.name, input_port))
 
     def get_input(self, input_port, primary_type = None, secondary_type = None):
         
@@ -81,7 +81,7 @@ class Module(object):
             raise GetInputError("{0} has no input port named {1}.".format(self.name, input_port))
 
         #typechecking
-        if primary_type is not None: 
+        if primary_type is not None:
             if not isinstance(input, primary_type):
                 raise GetInputError("{0} expected input on port {1} to be a {2}, but got {3} which is type {4}".format(self.name, input_port, primary_type, input, type(input)))
 
@@ -123,7 +123,7 @@ class Module(object):
         raise NotImplementedError("Subclasses of Module must implement generate_output method.")
         
     def clock(self):
-        for output_port, connection, input_port in self.outgoing_connections:                
+        for output_port, connection, input_port in self.outgoing_connections:
             connection.set_input(self.get_output(output_port), input_port)
 
         for output_port, connection, port in self.outgoing_connections:

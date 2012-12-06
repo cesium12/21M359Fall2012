@@ -1,6 +1,6 @@
 # Owner: Class
 # Summary: class representing a pitch
-# Notes: 
+# Notes:
 
 from modules import *
 

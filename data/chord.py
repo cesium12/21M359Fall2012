@@ -45,7 +45,7 @@ class Chord:
         return tuple( intervals[i + 1] for i in range(6) )
 
     def zero_shifted(self):
-        sorted_pitch_classes = [] 
+        sorted_pitch_classes = []
         sorted_pitch_classes = sorted(self.pitch_classes)
         new_pitch_classes = [sp - min(sorted_pitch_classes) for sp in sorted_pitch_classes]
         return Chord(new_pitch_classes)

@@ -13,7 +13,7 @@ To run in Linux or Mac OSX:
 Overview:
 	The architecture of this project is based on the the idea of
 	"black box" modules. Each module has some number of input ports,
-	some number of output ports, takes as input some type of data 
+	some number of output ports, takes as input some type of data
 	(primitives like lists, integers, floats and other defined data
 	structures like chords) and gives as output
 	some type of data.
