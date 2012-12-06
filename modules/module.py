@@ -69,7 +69,7 @@ class Module(object):
         if self.has_input_port(input_port):
             self.input[input_port] = input
         else:
-            raise SetInputException("{0} has no input port named {1}.".format(self.name, input_port))          
+            raise SetInputError("{0} has no input port named {1}.".format(self.name, input_port))          
 
     def get_input(self, input_port, primary_type = None, secondary_type = None):
         
@@ -109,7 +109,7 @@ class Module(object):
         if self.has_output_port(output_port):
             self.output[output_port] = output
         else:
-            raise SetOutputException("{0} has no output port named {1}.".format(self.name, output_port))
+            raise SetOutputError("{0} has no output port named {1}.".format(self.name, output_port))
 
     def set_all_outputs(self, output):
         for output_port in self.output.keys():
