@@ -10,3 +10,4 @@ from transpose_up_one import *
 from base_at_zero import *
 from leftward_pack import *
 from transpose_by_n import *
+from midi_generate import *
